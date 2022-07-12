@@ -1,4 +1,4 @@
-package com.school;
+package servlets;
 
 import java.io.IOException;
 import java.util.List;
@@ -10,29 +10,27 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.school.Grades;
+import com.school.schoolDBUtil;
+
 /**
- * Servlet implementation class StaffLoginServlet
+ * Servlet implementation class ShowGrdDetails
  */
-@WebServlet("/StaffLoginServlet")
-public class StaffLoginServlet extends HttpServlet {
+@WebServlet("/ShowGrdDetails")
+public class ShowGrdDetails extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	
+
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String role = null;
-		String uname = request.getParameter("username");
-		String pass = request.getParameter("password");
-		
 		try {
-			List<Staff> staffDetails = schoolDBUtil.validateStaff(uname, pass);
-			request.setAttribute("staffDetails", staffDetails);
+			List<Grades> grdDetails = schoolDBUtil.viewGradeDetails();
+			request.setAttribute("grdDetails", grdDetails);
 		}
 		catch(Exception e) {
 			e.printStackTrace();
 		}
-
-		RequestDispatcher dis = request.getRequestDispatcher("StaffUI.jsp");
-		dis.forward(request, response);
 		
+		RequestDispatcher dis = request.getRequestDispatcher("SemesterReg.jsp");
+		dis.forward(request, response);
 	}
 
 }
